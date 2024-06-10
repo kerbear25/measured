@@ -1,14 +1,27 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import { useQuiz } from '../../QuizContext';
+import { ROUTES } from '@/lib/routes';
 import './WeightInput.css';
 
 export default function WeightInput() {
+  const { quizData, setQuizData } = useQuiz();
+  const router = useRouter();
+
+  const [weight, setWeight] = useState<number>(quizData.weight || 0);
   const [hasValidWeight, setHasValidWeight] = useState<boolean | null>(null);
-  const [weight, setWeight] = useState<number>(0);
+
+  useEffect(() => {
+    if (weight > 0) {
+      setHasValidWeight(true);
+    }
+  }, [weight]);
 
   const handleNext = () => {
-    // TODO: Navigate to the next question
+    setQuizData({ weight });
+    router.push(ROUTES.QUIZ.BIRTHDAY);
   };
 
   const handleWeightChange = (e: React.ChangeEvent<HTMLInputElement>) => {

@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
-import { QuizProvider } from './quiz/quizContext';
+import { QuizProvider } from './QuizContext';
 
 const inter = Inter({ subsets: ['latin'] });
 
