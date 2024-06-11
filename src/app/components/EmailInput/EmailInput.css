@@ -1,0 +1,7 @@
+.next-button {
+  background-color: rgb(255 209 1 / var(--tw-bg-opacity));
+  border-radius: 25px;
+  color: #000;
+  margin-top: 2rem;
+  width: 200px;
+}
