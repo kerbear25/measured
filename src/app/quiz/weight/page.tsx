@@ -1,6 +1,6 @@
 'use client';
 
-import WeightInput from '../../components/WeightInput/WeightInput';
+import WeightInput from '@/app/components/WeightInput/WeightInput';
 
 export default function Weight() {
   return (

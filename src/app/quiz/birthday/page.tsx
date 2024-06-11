@@ -1,6 +1,6 @@
 'use client';
 
-import BirthdayInput from '../../components/BirthdayInput/BirthdayInput';
+import BirthdayInput from '@/app/components/BirthdayInput/BirthdayInput';
 
 export default function Birthday() {
   return (
