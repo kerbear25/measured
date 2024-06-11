@@ -66,7 +66,7 @@ export default function EmailInput() {
           disabled={hasValidEmail !== true}
           onClick={handleSubmit}
         >
-          Next
+          Submit
         </button>
       </div>
     </>
