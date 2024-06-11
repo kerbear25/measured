@@ -3,7 +3,7 @@
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 
-const QuizPage = () => {
+export default function QuizPage() {
   const router = useRouter();
 
   useEffect(() => {
@@ -12,6 +12,4 @@ const QuizPage = () => {
   }, [router]);
 
   return null;
-};
-
-export default QuizPage;
+}
