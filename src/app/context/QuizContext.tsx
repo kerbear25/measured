@@ -3,7 +3,7 @@
 import { createContext, useContext, useState, ReactNode } from 'react';
 
 interface QuizData {
-  birthday: string;
+  birthday: Date | null;
   email: string;
   weight: number;
 }
@@ -17,7 +17,7 @@ const QuizContext = createContext<QuizContextType | undefined>(undefined);
 
 export const QuizProvider = ({ children }: { children: ReactNode }) => {
   const [quizData, setQuizDataState] = useState<QuizData>({
-    birthday: '',
+    birthday: null,
     email: '',
     weight: 0,
   });

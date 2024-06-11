@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { useQuiz } from '../../QuizContext';
+import { useQuiz } from '@/app/context/QuizContext';
 import { ROUTES } from '@/lib/routes';
 import './WeightInput.css';
 

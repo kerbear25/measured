@@ -1,74 +1,130 @@
 'use client';
 
-import React, { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { ROUTES } from '../../../lib/routes';
-import { useQuiz } from '../../QuizContext';
+import { useQuiz } from '@/app/context/QuizContext';
+import { ROUTES } from '@/lib/routes';
+import './BirthdayInput.css';
+
+const months = [
+  'Month',
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+  'July',
+  'August',
+  'September',
+  'October',
+  'November',
+  'December',
+];
+
+const days = ['Day', ...Array.from({ length: 31 }, (_, i) => i + 1)];
+const years = ['Year', ...Array.from({ length: 85 }, (_, i) => 2008 - i)];
 
 export default function BirthdayInput() {
-  const [day, setDay] = useState('');
-  const [month, setMonth] = useState('');
-  const [year, setYear] = useState('');
-
   const { setQuizData } = useQuiz();
   const router = useRouter();
+  const [day, setDay] = useState<string>('0');
+  const [hasValidDate, setHasValidDate] = useState<boolean | null>(null);
+  const [month, setMonth] = useState<string>('0');
+  const [year, setYear] = useState<string>('0');
+
+  const validateDate = (m: string, d: string, y: string) => {
+    const parsedDay = parseInt(d);
+    const parsedMonth = parseInt(m);
+    const parsedYear = parseInt(y);
+    if (parsedMonth > 0 && parsedDay > 0 && parsedYear > 0) {
+      const date = new Date(parsedYear, parsedMonth - 1, parsedDay);
+      if (!isNaN(date.getTime()) && date.getDate() === parsedDay) {
+        return true;
+      }
+    }
+    return false;
+  };
+
+  useEffect(() => {
+    setHasValidDate(validateDate(month, day, year));
+  }, [month, day, year]);
 
   const handleNext = () => {
-    if (day && month && year) {
-      // TODO: Update quiz state with date of birth
-      // setQuizData({});
+    if (hasValidDate) {
+      const birthday = new Date(
+        parseInt(year),
+        parseInt(month) - 1,
+        parseInt(day)
+      );
+      setQuizData({ birthday });
       router.push(ROUTES.QUIZ.EMAIL);
     }
   };
 
-  // TODO: Update styling for selects
   return (
-    <div>
-      <h2>What&apos;s your date of birth?</h2>
-      <div>
-        <label>
-          <select value={month} onChange={(e) => setMonth(e.target.value)}>
-            <option value="">Month</option>
-            {Array.from({ length: 12 }, (_, i) => i + 1).map((month) => (
-              <option key={month} value={month}>
-                {new Date(0, month - 1).toLocaleString('default', {
-                  month: 'long',
-                })}
+    <div className="max-w-md mx-auto py-6">
+      <h2 className="text-xl font-semibold pb-4 text-center">
+        What&apos;s your date of birth?
+      </h2>
+      <div className="flex flex-col items-center">
+        <div className="flex space-x-2">
+          <select
+            className="border p-2 rounded"
+            onChange={(e) => setMonth(e.target.value)}
+            value={month}
+          >
+            {months.map((month, index) => (
+              <option
+                key={index}
+                disabled={index === 0}
+                value={index === 0 ? '0' : index.toString()}
+              >
+                {month}
               </option>
             ))}
           </select>
-        </label>
-        <label>
-          <select value={day} onChange={(e) => setDay(e.target.value)}>
-            <option value="">Day</option>
-            {Array.from({ length: 31 }, (_, i) => i + 1).map((day) => (
-              <option key={day} value={day}>
+          <select
+            className="border p-2 rounded"
+            onChange={(e) => setDay(e.target.value)}
+            value={day}
+          >
+            {days.map((day, index) => (
+              <option
+                key={index}
+                disabled={index === 0}
+                value={index === 0 ? '0' : day.toString()}
+              >
                 {day}
               </option>
             ))}
           </select>
-        </label>
-        <label>
-          <select value={year} onChange={(e) => setYear(e.target.value)}>
-            <option value="">Year</option>
-            {Array.from({ length: 85 }, (_, i) => 2008 - i).map((year) => (
-              <option key={year} value={year}>
+          <select
+            className="border p-2 rounded"
+            onChange={(e) => setYear(e.target.value)}
+            value={year}
+          >
+            {years.map((year, index) => (
+              <option
+                key={index}
+                disabled={index === 0}
+                value={index === 0 ? '0' : year.toString()}
+              >
                 {year}
               </option>
             ))}
           </select>
-        </label>
+        </div>
+        <button
+          className={`next-button bg-blue-500 text-white p-2 mt-4 rounded ${
+            hasValidDate !== true ? 'opacity-50 cursor-not-allowed' : ''
+          }`}
+          disabled={hasValidDate !== true}
+          onClick={handleNext}
+        >
+          Next
+        </button>
       </div>
-      {/* TODO: Fix styling to match button in WeightInput */}
-      <button
-        className={`next-button bg-blue-500 text-white p-2 mt-2 ${
-          !day || !month || !year ? 'opacity-50 cursor-not-allowed' : ''
-        }`}
-        disabled={!day || !month || !year}
-        onClick={handleNext}
-      >
-        Next
-      </button>
     </div>
   );
 }
