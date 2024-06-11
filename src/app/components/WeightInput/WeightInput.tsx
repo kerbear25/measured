@@ -42,7 +42,7 @@ export default function WeightInput() {
       </p>
       <div className="flex flex-col items-center">
         <label className="text-center">
-          <h2 className="pb-4">Enter Your Weight:</h2>
+          <h2 className="pb-4">Enter Your Weight in Pounds:</h2>
           <input
             className={`rounded-lg text-center border p-2 ${
               hasValidWeight === false ? 'border-red-500' : ''
