@@ -74,7 +74,7 @@ export default function EmailInput() {
           <p className="text-red-500">Please enter a valid email address.</p>
         )}
         <button
-          className={`next-button bg-blue-500 text-white p-2 mt-2 ${
+          className={`submit-button bg-blue-500 text-white p-2 mt-2 ${
             hasValidEmail !== true ? 'opacity-50 cursor-not-allowed' : ''
           }`}
           disabled={hasValidEmail !== true}
