@@ -6,6 +6,7 @@ import { ROUTES } from '@/lib/routes';
 import './EmailInput.css';
 import { isValidEmail } from '@/utils/emailUtils';
 import { useQuiz } from '@/app/context/QuizContext';
+import { API_ROUTES } from '@/lib/apiRoutes';
 
 export default function EmailInput() {
   const router = useRouter();
@@ -31,10 +32,23 @@ export default function EmailInput() {
     setEmail(value);
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (hasValidEmail) {
       setQuizData({ email });
-      router.push(ROUTES.QUIZ.CONFIRMATION);
+      const data = { ...quizData, email };
+      const response = await fetch(API_ROUTES.QUIZ, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
+
+      if (response.ok) {
+        router.push(ROUTES.QUIZ.CONFIRMATION);
+      } else {
+        console.error('Failed to submit quiz data');
+      }
     }
   };
 
